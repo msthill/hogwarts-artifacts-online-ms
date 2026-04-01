@@ -24,7 +24,7 @@ public class HogwartsUser implements Serializable {
     private boolean enabled;
 
     @NotEmpty(message = "roles are required.")
-    private String roles; // Space separated string
+    private String roles;
 
 
     public HogwartsUser() {
