@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -29,7 +30,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc(addFilters = false) // Turn off Spring Security
+@ActiveProfiles(value = "dev")
 class ArtifactControllerTest {
 
     @Autowired
@@ -43,7 +45,7 @@ class ArtifactControllerTest {
 
     List<Artifact> artifacts;
 
-    @Value("${api.endpoint.base-url}") // Spring will go to application.yml to find the value and inject into this field.
+    @Value("${api.endpoint.base-url}") // Spring will go to application-dev.yml to find the value and inject into this field.
     String baseUrl;
 
 
@@ -99,7 +101,7 @@ class ArtifactControllerTest {
     }
 
     @Test
-    void tesFindArtifactByIdSuccess() throws Exception {
+    void testFindArtifactByIdSuccess() throws Exception {
         // Given
         given(this.artifactService.findById("1250808601744904191")).willReturn(this.artifacts.get(0));
 
@@ -113,7 +115,7 @@ class ArtifactControllerTest {
     }
 
     @Test
-    void tesFindArtifactByIdNotFound() throws Exception {
+    void testFindArtifactByIdNotFound() throws Exception {
         // Given
         given(this.artifactService.findById("1250808601744904191")).willThrow(new ObjectNotFoundException("artifact", "1250808601744904191"));
 
